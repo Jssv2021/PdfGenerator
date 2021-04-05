@@ -1,0 +1,118 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family: source-sans-pro;
+                background-color: #f2f2f2;
+                margin-top: 0px;
+                margin-right: 0px;
+                margin-bottom: 0px;
+                margin-left: 0px;
+                font-style: normal;
+                font-weight: 200;">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin:0px;">
+  <tbody>
+    <tr>
+      <td style="background-color: #333; padding: 15px; text-align: left; vertical-align: middle; color: #ccc;">
+		PEACH INSURANCE
+		</td>
+    </tr>
+    <tr>
+      <td>
+		        <section class="policy" id="policy">
+            <h2>THANK YOU FOR CHOOSING PEACH INSURANCE FOR YOUR INSURANCE NEEDS</h2>
+            <p>Your policy information is below.</p>
+        </section>
+        <table class="gallery" width="100%" border="0" cellspacing="0" cellpadding="10" >
+			<tr>
+				<td class="thumbnail" style="width: 25%">
+					<h3 class="stats">Policy Number</h3>
+					<h4>@Model.PolicyNumber</h4>
+				</td>
+				<td class="thumbnail" style="width: 25%">
+					<h3 class="stats">Effective Date</h3>
+					<h4>@Model.PolicyEffectiveDate</h4>
+				</td>
+				<td class="thumbnail" style="width: 25%">
+					<h3 class="stats">Expires On</h3>
+					<h4>@Model.PolicyExpiryDate</h4>
+				</td>
+				<td class="thumbnail" style="width: 25%">
+					<h3 class="stats">Property Address</h3>
+					<h4>@Model.StreetAddress</h4>
+				</td>
+				</tr>
+        <tr>
+            <td class="thumbnail" style="width: 25%">
+                <h3 class="stats">Customer ID</h3>
+                <h4>@Model.CustomerId</h4>
+            </td>
+            <td class="thumbnail" style="width: 25%">
+                <h3 class="stats">Name of Insured</h3>
+                <h4>@Model.FirstName @Model.LastName</h4>
+            </td>
+            <td class="thumbnail" style="width: 25%">
+                <h3 class="stats">Date of Birth</h3>
+                <h4>@Model.DateOfBirth</h4>
+            </td>
+            <td class="thumbnail" style="width: 25%">
+                <h3 class="stats">Mobile Number</h3>
+                <h4>@Model.MobileNumber</h4>
+            </td>
+			</tr>
+        </table>
+        <section class="coverage">
+            <h2>Coverage Summary</h2>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+                <tr>
+                    <th style="text-align: left">Coverage</th>
+                    <th style="text-align: left">Maximum Amount</th>
+                    <th style="text-align: left">Cost</th>
+                </tr>
+                <tr>
+                    <td>Personal Property</td>
+                    <td>@Model.PersonalPropertyCoverage</td>
+                    <td>Included</td>
+                </tr>
+                <tr>
+                    <td>Personal Liability</td>
+                    <td>@Model.PersonalLiabilityLimit</td>
+                    <td>Included</td>
+                </tr>
+                <tr>
+                    <td>Property Damage to Others</td>
+                    <td>@Model.DamageToPropertyOfOthers</td>
+                    <td>Included</td>
+                </tr>
+                <tr>
+                    <td>Deductible</td>
+                    <td>@Model.PropertyDeduction</td>
+                    <td>Included</td>
+                </tr>
+                <tr class="premium">
+                    <td>Total Premium</td>
+                    <td>&nbsp;</td>
+                    <td>@Model.TotalAmount</td>
+                </tr>
+            </table>
+        </section>
+		</td>
+    </tr>
+    <tr>
+      <td>        <section class="footer_banner" id="contact">
+            <h2 class="hidden">YOU'RE AMAZING</h2>
+            <p class="hero_header">
+                You’re now part of a special group of people, who participate in
+                making life better . Together, we’ll be able to make insurance an
+                honest, simple and fun experience. Thanks for joining, we’re sure you’re gonna love it here :)
+            </p>
+        </section></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
