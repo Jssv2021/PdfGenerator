@@ -28,58 +28,43 @@ namespace PdfGenerator.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        [Route("/Home/Index/{customerId}")]
+        [HttpGet]
+        public async Task<IActionResult> Index(int? customerId)
         {
-            try
+            if (customerId != null)
             {
-                string url = "https://ai-customer-onboarding-dev.azurewebsites.net/api/CustomerPolicyCoverage/5";
+                string url = $"https://ai-customer-onboarding-dev.azurewebsites.net/api/CustomerPolicyCoverage/{customerId}";
                 HttpClient client = new HttpClient();
 
                 string response = await client.GetStringAsync(url);
-
-                var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
-
-                string html = ViewsToStringOutputHelper.RenderRazorViewToString(this, "Pdf", data);
-                byte[] result;
-
-                using (var memoryStream = new MemoryStream())
+                var model = JsonConvert.DeserializeObject<CustomerPolicyCoverage>(response);
+                return new ViewAsPdf("Pdf", model)
                 {
-                    PdfWriter pdfWriter = new PdfWriter(memoryStream);
-                    ConverterProperties converterProperties = new ConverterProperties();
-                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-                    Document document = HtmlConverter.ConvertToDocument(html, pdfDocument, converterProperties);
-                    document.SetMargins(0, 0, 0, 0);
-                    document.Close();
-
-                    result = memoryStream.ToArray();
-                }
-                //FileStream pdfDest = System.IO.File.Open("output.pdf", FileMode.OpenOrCreate);
-                //PdfWriter pdfWriter = new PdfWriter(pdfDest);
-                //ConverterProperties converterProperties = new ConverterProperties();
-                //PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-
-                //Document document = HtmlConverter.ConvertToDocument(html, pdfDocument, converterProperties);
-                //document.
-                return File(result, "application/pdf", "Policy.pdf");
+                    FileName = "Policy.pdf"
+                };
             }
-            catch (Exception ex)
-            {
-                return View(ex);
-                throw;
-            }
-
+            else return View("Empty");
         }
 
-        public async Task<IActionResult> Pdf()
+        [HttpGet]
+        [Route("{customerId}")]
+        public async Task<IActionResult> Pdf(int? customerId)
         {
-            string url = "https://ai-customer-onboarding-dev.azurewebsites.net/api/CustomerPolicyCoverage/5";
-            HttpClient client = new HttpClient();
+            
+            if (customerId != null)
+            {
+                string url = $"https://ai-customer-onboarding-dev.azurewebsites.net/api/CustomerPolicyCoverage/{customerId}";
+                HttpClient client = new HttpClient();
 
-            string response = await client.GetStringAsync(url);
-            var model = JsonConvert.DeserializeObject<CustomerPolicyCoverage>(response);
-            return new ViewAsPdf("Pdf", model) { 
-                FileName = "Policy.pdf" 
-            };
+                string response = await client.GetStringAsync(url);
+                var model = JsonConvert.DeserializeObject<CustomerPolicyCoverage>(response);
+                return new ViewAsPdf("Pdf", model)
+                {
+                    FileName = "Policy.pdf"
+                };
+            }
+            else return View();
         }
 
         public IActionResult Privacy()
