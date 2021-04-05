@@ -26,48 +26,57 @@ namespace PdfGenerator.Controllers
 
         public async Task<IActionResult> Index()
         {
-            HtmlToPdfConverter htmlConverter = new HtmlToPdfConverter();
-            WebKitConverterSettings settings = new WebKitConverterSettings();
+            try
+            {
+                HtmlToPdfConverter htmlConverter = new HtmlToPdfConverter();
+                WebKitConverterSettings settings = new WebKitConverterSettings();
 
-            string url = "https://ai-customer-onboarding-dev.azurewebsites.net/api/CustomerPolicyCoverage/5";
-            HttpClient client = new HttpClient();
+                string url = "https://ai-customer-onboarding-dev.azurewebsites.net/api/CustomerPolicyCoverage/5";
+                HttpClient client = new HttpClient();
 
-            string response = await client.GetStringAsync(url);
+                string response = await client.GetStringAsync(url);
 
-            var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+                var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
 
-            string html = ViewsToStringOutputHelper.RenderRazorViewToString(this, "Pdf", data);
-            htmlConverter = new HtmlToPdfConverter();
+                string html = ViewsToStringOutputHelper.RenderRazorViewToString(this, "Pdf", data);
+                htmlConverter = new HtmlToPdfConverter();
 
-            string baseUrl = @"C:/Temp/HTMLFiles/";
+                string baseUrl = @"C:/Temp/HTMLFiles/";
 
-            //Set WebKit path
-            settings.WebKitPath = @"QtBinariesDotNetCore\";
+                //Set WebKit path
+                settings.WebKitPath = @"QtBinariesDotNetCore\";
 
-            //Assign WebKit settings to HTML converter
-            htmlConverter.ConverterSettings = settings;
+                //Assign WebKit settings to HTML converter
+                htmlConverter.ConverterSettings = settings;
 
-            //Convert HTML string to PDF
-            PdfDocument document = htmlConverter.Convert(html, baseUrl);
+                //Convert HTML string to PDF
+                PdfDocument document = htmlConverter.Convert(html, baseUrl);
 
-            //Save the document into stream.
-            MemoryStream stream = new MemoryStream();
+                //Save the document into stream.
+                MemoryStream stream = new MemoryStream();
 
-            document.Save(stream);
+                document.Save(stream);
 
-            stream.Position = 0;
+                stream.Position = 0;
 
-            //Close the document.
-            document.Close(true);
+                //Close the document.
+                document.Close(true);
 
-            //Defining the ContentType for pdf file.
-            string contentType = "application/pdf";
+                //Defining the ContentType for pdf file.
+                string contentType = "application/pdf";
 
-            //Define the file name.
-            string fileName = "Output.pdf";
+                //Define the file name.
+                string fileName = "Output.pdf";
 
-            //Creates a FileContentResult object by using the file contents, content type, and file name.
-            return File(stream, contentType, fileName);
+                //Creates a FileContentResult object by using the file contents, content type, and file name.
+                return File(stream, contentType, fileName);
+            }
+            catch (Exception ex)
+            {
+                return View();
+                throw;
+            }
+
         }
 
         public IActionResult Pdf()
