@@ -6,12 +6,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Syncfusion.HtmlConverter;
-using Syncfusion.Pdf;
 using System.IO;
 using System.Net.Http;
 using Newtonsoft.Json;
 using API.Models;
+using iText.Html2pdf;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Kernel.Geom;
+using iText.Layout.Element;
+using Rotativa.AspNetCore;
 
 namespace PdfGenerator.Controllers
 {
@@ -28,9 +32,6 @@ namespace PdfGenerator.Controllers
         {
             try
             {
-                HtmlToPdfConverter htmlConverter = new HtmlToPdfConverter();
-                WebKitConverterSettings settings = new WebKitConverterSettings();
-
                 string url = "https://ai-customer-onboarding-dev.azurewebsites.net/api/CustomerPolicyCoverage/5";
                 HttpClient client = new HttpClient();
 
@@ -39,37 +40,27 @@ namespace PdfGenerator.Controllers
                 var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
 
                 string html = ViewsToStringOutputHelper.RenderRazorViewToString(this, "Pdf", data);
-                htmlConverter = new HtmlToPdfConverter();
+                byte[] result;
 
-                string baseUrl = @"C:/Temp/HTMLFiles/";
+                using (var memoryStream = new MemoryStream())
+                {
+                    PdfWriter pdfWriter = new PdfWriter(memoryStream);
+                    ConverterProperties converterProperties = new ConverterProperties();
+                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+                    Document document = HtmlConverter.ConvertToDocument(html, pdfDocument, converterProperties);
+                    document.SetMargins(0, 0, 0, 0);
+                    document.Close();
 
-                //Set WebKit path
-                settings.WebKitPath = @"QtBinariesDotNetCore\";
+                    result = memoryStream.ToArray();
+                }
+                //FileStream pdfDest = System.IO.File.Open("output.pdf", FileMode.OpenOrCreate);
+                //PdfWriter pdfWriter = new PdfWriter(pdfDest);
+                //ConverterProperties converterProperties = new ConverterProperties();
+                //PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 
-                //Assign WebKit settings to HTML converter
-                htmlConverter.ConverterSettings = settings;
-
-                //Convert HTML string to PDF
-                PdfDocument document = htmlConverter.Convert(html, baseUrl);
-
-                //Save the document into stream.
-                MemoryStream stream = new MemoryStream();
-
-                document.Save(stream);
-
-                stream.Position = 0;
-
-                //Close the document.
-                document.Close(true);
-
-                //Defining the ContentType for pdf file.
-                string contentType = "application/pdf";
-
-                //Define the file name.
-                string fileName = "Output.pdf";
-
-                //Creates a FileContentResult object by using the file contents, content type, and file name.
-                return File(stream, contentType, fileName);
+                //Document document = HtmlConverter.ConvertToDocument(html, pdfDocument, converterProperties);
+                //document.
+                return File(result, "application/pdf", "Policy.pdf");
             }
             catch (Exception ex)
             {
@@ -79,9 +70,16 @@ namespace PdfGenerator.Controllers
 
         }
 
-        public IActionResult Pdf()
+        public async Task<IActionResult> Pdf()
         {
-            return View();
+            string url = "https://ai-customer-onboarding-dev.azurewebsites.net/api/CustomerPolicyCoverage/5";
+            HttpClient client = new HttpClient();
+
+            string response = await client.GetStringAsync(url);
+            var model = JsonConvert.DeserializeObject<CustomerPolicyCoverage>(response);
+            return new ViewAsPdf("Pdf", model) { 
+                FileName = "Policy.pdf" 
+            };
         }
 
         public IActionResult Privacy()

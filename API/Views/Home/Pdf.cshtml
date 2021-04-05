@@ -609,37 +609,37 @@
         <div class="gallery">
             <div class="thumbnail">
                 <h1 class="stats">Policy Number</h1>
-                <h4>@ViewData["policyNumber"]</h4>
+                <h4>@Model.PolicyNumber</h4>
             </div>
             <div class="thumbnail">
                 <h1 class="stats">Effective Date</h1>
-                <h4>@ViewData["policyEffectiveDate"]</h4>
+                <h4>@Model.PolicyEffectiveDate</h4>
             </div>
             <div class="thumbnail">
                 <h1 class="stats">Expires On</h1>
-                <h4>@ViewData["policyExpiryDate"]</h4>
+                <h4>@Model.PolicyExpiryDate</h4>
             </div>
             <div class="thumbnail">
                 <h1 class="stats">Property Address</h1>
-                <h4>@ViewData["streetAddress"]</h4>
+                <h4>@Model.StreetAddress</h4>
             </div>
         </div>
         <div class="gallery">
             <div class="thumbnail">
                 <h1 class="stats">Customer ID</h1>
-                <h4>@ViewData["customerId"]</h4>
+                <h4>@Model.CustomerId</h4>
             </div>
             <div class="thumbnail">
                 <h1 class="stats">Name of Insured</h1>
-                <h4>@ViewData["firstName"] @ViewData["lastName"]</h4>
+                <h4>@Model.FirstName @Model.LastName</h4>
             </div>
             <div class="thumbnail">
                 <h1 class="stats">Date of Birth</h1>
-                <h4>@ViewData["dateOfBirth"]</h4>
+                <h4>@Model.DateOfBirth</h4>
             </div>
             <div class="thumbnail">
                 <h1 class="stats">Mobile Number</h1>
-                <h4>@ViewData["mobileNumber"]</h4>
+                <h4>@Model.MobileNumber</h4>
             </div>
         </div>
         <section class="coverage">
@@ -652,28 +652,28 @@
                 </tr>
                 <tr>
                     <td>Personal Property</td>
-                    <td>@ViewData["personalPropertyCoverage"]</td>
+                    <td>@Model.PersonalPropertyCoverage</td>
                     <td>Included</td>
                 </tr>
                 <tr>
                     <td>Personal Liability</td>
-                    <td>@ViewData["personalLiabilityLimit"]</td>
+                    <td>@Model.PersonalLiabilityLimit</td>
                     <td>Included</td>
                 </tr>
                 <tr>
                     <td>Property Damage to Others</td>
-                    <td>@ViewData["damageToPropertyOfOthers"]</td>
+                    <td>@Model.DamageToPropertyOfOthers</td>
                     <td>Included</td>
                 </tr>
                 <tr>
                     <td>Deductible</td>
-                    <td>@ViewData["propertyDeduction"]</td>
+                    <td>@Model.PropertyDeduction</td>
                     <td>Included</td>
                 </tr>
                 <tr class="premium">
                     <td>Total Premium</td>
                     <td>&nbsp;</td>
-                    <td>@ViewData["totalAmount"]</td>
+                    <td>@Model.TotalAmount</td>
                 </tr>
             </table>
         </section>
