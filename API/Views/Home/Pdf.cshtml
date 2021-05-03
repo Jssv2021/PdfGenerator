@@ -43,7 +43,7 @@
                             </td>
                             <td class="thumbnail" style="width: 25%; vertical-align: top;">
                                 <h3 class="stats">Property Address</h3>
-                                <h4>@Model.StreetAddress</h4>
+                                <h4>@Model.AddressLine1<br />@Model.AddressLine2<br />@Model.State, @Model.ZipCode</h4>
                             </td>
                         </tr>
                         <tr>
@@ -53,7 +53,7 @@
                             </td>
                             <td class="thumbnail" style="width: 25%; vertical-align: top;">
                                 <h3 class="stats">Name of Insured</h3>
-                                <h4>@Model.FirstName @Model.LastName</h4>
+                                <h4>@Model.FirstName @Model.MiddleName @Model.LastName</h4>
                             </td>
                             <td class="thumbnail" style="width: 25%; vertical-align: top;">
                                 <h3 class="stats">Date of Birth</h3>

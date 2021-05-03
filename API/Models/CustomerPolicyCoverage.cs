@@ -9,9 +9,12 @@ namespace API.Models
     {
         public int CustomerId { get; set; }
         public string FirstName { get; set; }
+        public string MiddleName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public string StreetAddress { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public string State { get; set; }
         public string ZipCode { get; set; }
         public string MobileNumber { get; set; }
         public string EmailAddress { get; set; }
@@ -27,5 +30,6 @@ namespace API.Models
         public double TotalAmount { get; set; }
         public string Active { get; set; }
     }
+
 }
 
